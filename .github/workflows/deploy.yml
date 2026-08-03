@@ -1,0 +1,54 @@
+name: Deploy website
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Extract website
+        run: |
+          rm -rf _site
+          mkdir _site
+          unzip -q site.zip -d _site
+          if [ ! -f _site/index.html ]; then
+            first_dir="$(find _site -mindepth 1 -maxdepth 1 -type d | head -n 1)"
+            if [ -n "$first_dir" ] && [ -f "$first_dir/index.html" ]; then
+              cp -a "$first_dir"/. _site/
+              rm -rf "$first_dir"
+            fi
+          fi
+          test -f _site/index.html
+          touch _site/.nojekyll
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: _site
+
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4
