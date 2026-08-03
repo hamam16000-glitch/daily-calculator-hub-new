@@ -41,6 +41,7 @@ jobs:
           test -f _site/index.html
           touch _site/.nojekyll
           bash .github/generate-seo.sh
+          cp google05d352dd5025ea8e.html _site/
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
