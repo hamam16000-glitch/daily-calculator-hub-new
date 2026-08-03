@@ -40,6 +40,7 @@ jobs:
           fi
           test -f _site/index.html
           touch _site/.nojekyll
+          bash .github/generate-seo.sh
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
