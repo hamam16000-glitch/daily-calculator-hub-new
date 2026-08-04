@@ -42,6 +42,7 @@ jobs:
           touch _site/.nojekyll
           bash .github/generate-seo.sh
           python3 .github/inject-analytics.py
+          python3 .github/fix-breadcrumbs.py
           cp google05d352dd5025ea8e.html _site/
 
       - name: Setup Pages
