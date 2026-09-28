@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-BASE="https://hamam16000-glitch.github.io/daily-calculator-hub-new"
+BASE="https://hamam16000-glitch.github.io"
 
 {
   printf '%s\n' '<?xml version="1.0" encoding="UTF-8"?>'
